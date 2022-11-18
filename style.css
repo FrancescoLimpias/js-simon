@@ -1,0 +1,13 @@
+body{
+    background-color: #1b1b1b;
+    color: snow;
+}
+
+.pager{
+    width: 400px;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 3px black;
+}
