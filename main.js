@@ -9,11 +9,16 @@ updateSettings(0, 100, 5);
 // Rererences
 const startElement = document.getElementById("start");
 const displayElement = document.getElementById("display");
+const inputsElement = document.getElementById("inputs");
+const numberElement = document.getElementById("input-number");
+const confirmButton = document.getElementById("confirm");
 
 // Link UI to JS
 startElement.addEventListener("click", startGame);
+confirmButton.addEventListener("click", addNumber);
 
 // Game controls
+let timer, testArray;
 function updateSettings(newMinN, newMaxN, newNOfN) {
 
     // update game configuration
@@ -27,17 +32,87 @@ function updateSettings(newMinN, newMaxN, newNOfN) {
 }
 function startGame() {
 
-    // Declare testArray
-    const testArray = [];
+    // reset timer
+    clearTimeout(timer);
 
-    // Generate random numbers    
+    // reset interface
+    displayElement.innerHTML = "";
+    inputsElement.classList.remove("active");
+
+    // reset arrays
+    testArray = [];
+    resultArray = [];
+
+    // Generate and display random numbers    
     for (let i = 0; i < nOfN; i++) {
 
-        testArray.push(
-            Math.round(minN + (Math.random() * minMaxDist))
-        );
+        // create a random number
+        const randomNumber =
+            Math.round(     //round number to nearest integer
+                minN + (Math.random() * minMaxDist)
+            );
+
+        // store the random number for later use
+        testArray.push(randomNumber);
+
+        // print the number
+        displayElement.insertAdjacentHTML("beforeend", "<li>" + randomNumber + "</li>");
+    }
+
+    // Start memorization timer
+    timer = setTimeout(startTest, 3000);
+}
+function endGame() {
+
+    // Produce score
+    let score = 0;
+    for (let i = 0; i < testArray.length; i++) {
+        if (testArray[i] == resultArray[i]) {
+            score++;
+        }
+    }
+
+    // Display result
+    if (score == nOfN) {
+        // victory
+
+        displayElement.insertAdjacentHTML("beforeend", "Winner!");
+    } else {
+        // defeat
+
+        displayElement.insertAdjacentHTML("beforeend", `Lost! ${score}/${nOfN}`);
+    }
+}
+
+// Event handlers
+function startTest() {
+
+    // Clear displayElement
+    displayElement.innerHTML = "";
+
+    // Show inputs
+    inputsElement.classList.add("active");
+
+}
+let resultArray = [];
+function addNumber() {
+
+    // Get the inserted value
+    const insertedNumber = numberElement.value;
+
+    // validate and store number
+    if (!isNaN(insertedNumber)) {
+
+        resultArray.push(insertedNumber);
 
     }
 
-    console.log(testArray);
+    numberElement.value = "";
+
+    // Check if resultArray is full
+    if (resultArray.length == nOfN) {
+
+        endGame();
+
+    }
 }

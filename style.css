@@ -11,3 +11,21 @@ body{
     padding: 2rem;
     box-shadow: 0 0 3px black;
 }
+
+#display{
+    list-style: none;
+    display: flex;
+    gap: 3rem;
+}
+#display li{
+    padding: 6px;
+    border: 2px solid snow;
+    border-radius: 15px;
+}
+
+#inputs{
+    display: none;
+}
+#inputs.active{
+    display: block;
+}
